@@ -1,4 +1,4 @@
-name: Book Volleyball Court
+name: Book Volleyball Court Trigger
 
 on:
   schedule:
