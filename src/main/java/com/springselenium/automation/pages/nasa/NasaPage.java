@@ -505,7 +505,9 @@ public class NasaPage extends AbstractPage {
       //  }
     //}
 
-    public void notifyGroup() {
+    public void notifyGroup() throws IOException {
+
+        filterPreferredSchedule();
 
         if (lastPreferredSlots == null || lastPreferredSlots.isEmpty()) {
 
