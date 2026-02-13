@@ -27,6 +27,9 @@ public class WebDriverConfig {
 	public WebDriver chromeDriver() {
 		Map<String, Object> chromePrefs = new HashMap<>();
 		ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless=new"); // important (new headless mode)
+        chromeOptions.addArguments("--disable-gpu");
+        chromeOptions.addArguments("--window-size=1920,1080");
 		chromeOptions.setExperimentalOption("prefs", chromePrefs);
 		chromeOptions.addArguments("--remote-allow-origins=*");
 		chromeOptions.addArguments("start-maximized");
