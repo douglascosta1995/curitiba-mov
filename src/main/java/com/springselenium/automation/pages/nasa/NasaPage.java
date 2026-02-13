@@ -482,28 +482,41 @@ public class NasaPage extends AbstractPage {
     }
 
 
-    public void notifyGroup() throws IOException {
-        List<String> currentPreferred = readSlotsFromFile("savedSlots.txt");
-        List<String> previouslyNotified = readSlotsFromFile("notifiedSlots.txt");
+    //public void notifyGroup() throws IOException {
+    //    List<String> currentPreferred = readSlotsFromFile("savedSlots.txt");
+    //    List<String> previouslyNotified = readSlotsFromFile("notifiedSlots.txt");
 
-        List<String> newSlots = currentPreferred.stream()
-                .filter(slot -> !previouslyNotified.contains(slot))
-                .toList();
+    //    List<String> newSlots = currentPreferred.stream()
+    //            .filter(slot -> !previouslyNotified.contains(slot))
+    //            .toList();
 
-        if (!newSlots.isEmpty()) {
+     //   if (!newSlots.isEmpty()) {
 
-            System.out.println("New preferred slots found. Sending email...");
+    //        System.out.println("New preferred slots found. Sending email...");
 
-            sendEmail(newSlots);
+      //      sendEmail(newSlots);
 
-            saveSlotsToFile(currentPreferred); // overwrite notifiedSlots.txt
-            Files.write(Paths.get("notifiedSlots.txt"), currentPreferred);
+      //      saveSlotsToFile(currentPreferred); // overwrite notifiedSlots.txt
+      //      Files.write(Paths.get("notifiedSlots.txt"), currentPreferred);
 
-        } else {
+     //   } else {
 
-            System.out.println("No new preferred slots to notify.");
+    //        System.out.println("No new preferred slots to notify.");
+      //  }
+    //}
+
+    public void notifyGroup() {
+
+        if (lastPreferredSlots == null || lastPreferredSlots.isEmpty()) {
+
+            System.out.println("No preferred slots available. No email sent.");
+            return;
         }
+
+        System.out.println("Preferred slots found. Sending email...");
+        sendEmail(lastPreferredSlots);
     }
+
 
     private List<String> dailySlots;
 
