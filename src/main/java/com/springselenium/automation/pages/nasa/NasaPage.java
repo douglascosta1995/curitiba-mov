@@ -307,11 +307,17 @@ public class NasaPage extends AbstractPage {
 
     public void selectSuitableDate() throws InterruptedException {
 
+        By loadMoreBtn = By.id("btnCarregarMais");
+        By listItems = By.cssSelector(".resultado");
+
+        wait.until(ExpectedConditions.or(
+                ExpectedConditions.presenceOfElementLocated(loadMoreBtn),
+                ExpectedConditions.presenceOfElementLocated(By.cssSelector("div.resultado"))
+        ));
+
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        By loadMoreBtn = By.id("btnCarregarMais");
-        By listItems = By.cssSelector(".resultado");
 
         while (true) {
 
