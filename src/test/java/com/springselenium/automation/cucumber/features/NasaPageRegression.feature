@@ -1,5 +1,6 @@
 Feature: Curitiba em Movimento
 
+  @bookVolleyball
   Scenario: Book a volleyball court
     Given I am on the Login Page
     When I click Entrar com CPF
