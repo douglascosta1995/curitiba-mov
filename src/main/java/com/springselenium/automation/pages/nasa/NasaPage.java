@@ -247,9 +247,21 @@ public class NasaPage extends AbstractPage {
     public void selectVolleyData() throws InterruptedException {
         driver.findElement(btn_novaReserva).click();
         //Thread.sleep(1000);
+        //Select selectAtividade = new Select(driver.findElement(select_Atividade));
+        //selectAtividade.selectByValue("20");
+        Thread.sleep(1000);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
+        wait.until(driver -> {
+            Select dropdown = new Select(driver.findElement(select_Atividade));
+            return dropdown.getOptions()
+                    .stream()
+                    .anyMatch(option -> option.getAttribute("value").equals("20"));
+        });
+
         Select selectAtividade = new Select(driver.findElement(select_Atividade));
         selectAtividade.selectByValue("20");
-        Thread.sleep(1000);
 
         Select selectRegional = new Select(driver.findElement(select_Regional));
         selectRegional.selectByValue("2");
@@ -260,13 +272,14 @@ public class NasaPage extends AbstractPage {
         Select selectSugestao = new Select(driver.findElement(select_Sugestao));
         selectSugestao.selectByValue("false");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Wait until the element is clickable (visible and enabled)
         WebElement qtypessoas = wait.until(
                 ExpectedConditions.elementToBeClickable(field_qtypessoas)
         );
         qtypessoas.sendKeys("18");
+        Thread.sleep(1000);
         driver.findElement(btn_avancar).click();
         Thread.sleep(1000);
 
