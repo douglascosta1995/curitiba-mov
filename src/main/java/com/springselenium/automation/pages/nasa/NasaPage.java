@@ -349,6 +349,12 @@ public class NasaPage extends AbstractPage {
 
     public List<String> returnListAvailableDates() {
 
+        System.out.println("==================================");
+        System.out.println("DEBUG - System timezone: " + ZoneId.systemDefault());
+        System.out.println("DEBUG - LocalDate.now(): " + LocalDate.now());
+        System.out.println("==================================");
+
+
         List<String> filteredSlots = new ArrayList<>();
         List<String> allSlots = new ArrayList<>();
 
@@ -363,6 +369,12 @@ public class NasaPage extends AbstractPage {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        System.out.println("DEBUG - resultados size: " + resultados.size());
+
+        for (WebElement r : resultados) {
+            System.out.println("DEBUG HTML: " + r.getText());
+        }
 
         for (WebElement resultado : resultados) {
 
