@@ -300,14 +300,33 @@ public class NasaPage extends AbstractPage {
         System.out.println("DEBUG - Selected date: " + formattedDate);
 
         dateInput.clear();
-        dateInput.sendKeys(formattedDate);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+                "arguments[0].value = arguments[1];" +
+                        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));" +
+                        "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));",
+                dateInput,
+                formattedDate
+        );
         dateInput.sendKeys(Keys.TAB);
 
         WebElement btnAvancar = wait.until(
                 ExpectedConditions.elementToBeClickable(btn_buscar)
         );
+        // Capture old results before search
+        WebElement oldResults = driver.findElement(By.cssSelector("div.resultado"));
+
+// Click search
         btnAvancar.click();
-        Thread.sleep(5000);
+
+// Wait until old results are replaced (AJAX reload finished)
+        new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(ExpectedConditions.stalenessOf(oldResults));
+
+// Now wait until new results exist
+        new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div.resultado")));
+
 
     }
 
