@@ -289,13 +289,19 @@ public class NasaPage extends AbstractPage {
         );
 
         String minDate = dateInput.getAttribute("min");
+        System.out.println("DEBUG - minDate: " + minDate);
+        System.out.println("DEBUG - System today: " + LocalDate.now());
 
-        LocalDate date = LocalDate.parse(minDate);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String formattedDate = date.format(formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate targetDate = LocalDate.now().plusDays(1);
+        String formattedDate = targetDate.format(formatter);
+
+
+        System.out.println("DEBUG - Selected date: " + formattedDate);
 
         dateInput.clear();
         dateInput.sendKeys(formattedDate);
+        dateInput.sendKeys(Keys.TAB);
 
         WebElement btnAvancar = wait.until(
                 ExpectedConditions.elementToBeClickable(btn_buscar)
