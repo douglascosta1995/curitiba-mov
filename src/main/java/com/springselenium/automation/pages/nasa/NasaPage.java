@@ -457,9 +457,9 @@ public class NasaPage extends AbstractPage {
     }
 
 
-    private List<String> lastPreferredSlots = new ArrayList<>();
+    //private List<String> lastPreferredSlots = new ArrayList<>();
 
-    public void filterPreferredSchedule() throws IOException {
+    public List<String>  filterPreferredSchedule() throws IOException {
 
         List<String> preferredSlots = returnListAvailableDates();
 
@@ -478,7 +478,7 @@ public class NasaPage extends AbstractPage {
         saveSlotsToFile(preferredSlots);
 
         // store in memory for notify step
-        lastPreferredSlots = preferredSlots;
+        return preferredSlots;
     }
 
 
@@ -505,18 +505,16 @@ public class NasaPage extends AbstractPage {
       //  }
     //}
 
-    public void notifyGroup() throws IOException {
+    public void notifyGroup(List<String> slots) throws IOException {
 
-        filterPreferredSchedule();
-
-        if (lastPreferredSlots == null || lastPreferredSlots.isEmpty()) {
+        if (slots == null || slots.isEmpty()) {
 
             System.out.println("No preferred slots available. No email sent.");
             return;
         }
 
         System.out.println("Preferred slots found. Sending email...");
-        sendEmail(lastPreferredSlots);
+        sendEmail(slots);
     }
 
 

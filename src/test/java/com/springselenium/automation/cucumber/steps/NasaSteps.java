@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.List;
 
 public class NasaSteps {
     @Autowired
@@ -73,7 +74,8 @@ public class NasaSteps {
     @Then("I notify the group about new matching spots")
     public void then_INotifyTheGroupAboutNewMatchingSpots() throws InterruptedException, IOException {
         // Write code here that turns the phrase above into concrete actions
-        nasaPage.notifyGroup();
+        List<String> preferred = nasaPage.filterPreferredSchedule();
+        nasaPage.notifyGroup(preferred);
     }
 
     @Then("I send daily availability summary")
