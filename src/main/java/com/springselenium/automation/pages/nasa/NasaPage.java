@@ -36,8 +36,8 @@ public class NasaPage extends AbstractPage {
 
     final String fromEmail = System.getenv("EMAIL_USERNAME");
     final String appPassword = System.getenv("EMAIL_PASSWORD");
-    //final String toEmail = "douglascastro2010@hotmail.com, leoribas.22@gmail.com, mizael.otelakoski@gmail.com, marinevescruz32@gmail.com, josewman@gmail.com, brauliomkt@gmail.com";
-    final String toEmail = "douglascastro2010@hotmail.com";
+    final String toEmail = "douglascastro2010@hotmail.com, leoribas.22@gmail.com, mizael.otelakoski@gmail.com, marinevescruz32@gmail.com, josewman@gmail.com, brauliomkt@gmail.com";
+    //final String toEmail = "douglascastro2010@hotmail.com";
 
     private final By nasa_header = By.id("header-logo");
 
@@ -271,7 +271,7 @@ public class NasaPage extends AbstractPage {
         Thread.sleep(1000);
 
         Select selectSugestao = new Select(driver.findElement(select_Sugestao));
-        selectSugestao.selectByValue("false");
+        selectSugestao.selectByValue("true");
 
         //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -293,40 +293,23 @@ public class NasaPage extends AbstractPage {
         System.out.println("DEBUG - System today: " + LocalDate.now());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate targetDate = LocalDate.now().plusDays(1);
+        LocalDate targetDate = LocalDate.now().plusDays(7);
         String formattedDate = targetDate.format(formatter);
 
 
         System.out.println("DEBUG - Selected date: " + formattedDate);
 
         dateInput.clear();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(
-                "arguments[0].value = arguments[1];" +
-                        "arguments[0].dispatchEvent(new Event('input', { bubbles: true }));" +
-                        "arguments[0].dispatchEvent(new Event('change', { bubbles: true }));",
-                dateInput,
-                formattedDate
-        );
+        dateInput.sendKeys(formattedDate);
+        dateInput.click();
+
         dateInput.sendKeys(Keys.TAB);
 
         WebElement btnAvancar = wait.until(
                 ExpectedConditions.elementToBeClickable(btn_buscar)
         );
-        // Capture old results before search
-        WebElement oldResults = driver.findElement(By.cssSelector("div.resultado"));
-
-// Click search
         btnAvancar.click();
-
-// Wait until old results are replaced (AJAX reload finished)
-        new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(ExpectedConditions.stalenessOf(oldResults));
-
-// Now wait until new results exist
-        new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div.resultado")));
-
+        Thread.sleep(5000);
 
     }
 
@@ -433,7 +416,7 @@ public class NasaPage extends AbstractPage {
                                 !time.isBefore(LocalTime.of(18, 0)))
                                 ||
                                 (date.getDayOfWeek() == DayOfWeek.SATURDAY &&
-                                        !time.isBefore(LocalTime.of(12, 0)))
+                                        !time.isBefore(LocalTime.of(16, 0)))
                 ) {
                     filteredSlots.add(slot);
                 }
