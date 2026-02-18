@@ -7,7 +7,7 @@ on:
 
 jobs:
   run-test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     env:
       EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
