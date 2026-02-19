@@ -2,7 +2,7 @@ name: Book Volleyball Court Trigger
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/12 * * * *"
   workflow_dispatch:
 
 jobs:
