@@ -1,13 +1,19 @@
 name: Book Volleyball Court Trigger
 
 on:
-  schedule:
-    - cron: "*/12 * * * *"
   workflow_dispatch:
+  schedule:
+    - cron: "0 11 * * *" # 08:00 BRT
+    - cron: "0 17 * * *" # 14:00 BRT
+
+concurrency:
+  group: book-volleyball
+  cancel-in-progress: false
 
 jobs:
   run-test:
     runs-on: windows-latest
+    timeout-minutes: 370 # ~6h + margem
 
     env:
       EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
@@ -20,8 +26,24 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: "17"
 
-      - name: Run Cucumber Scenario
-        run: mvn clean test
+      - name: Run Cucumber Scenario every 10 minutes for 6 hours
+        shell: powershell
+        run: |
+          Write-Host "Job started at $(Get-Date)"
+
+          for ($i = 1; $i -le 36; $i++) {
+            Write-Host "=============================="
+            Write-Host "Execution $i - $(Get-Date)"
+
+            mvn clean test
+
+            if ($i -lt 36) {
+              Write-Host "Sleeping 10 minutes..."
+              Start-Sleep -Seconds 600
+            }
+          }
+
+          Write-Host "Job finished at $(Get-Date)"
