@@ -357,6 +357,120 @@ public class NasaPage extends AbstractPage {
 
     public List<String> returnListAvailableDates() {
 
+    System.out.println("==================================");
+    System.out.println("DEBUG - System timezone: " + ZoneId.systemDefault());
+    System.out.println("DEBUG - LocalDate.now(): " + LocalDate.now());
+    System.out.println("==================================");
+
+    List<String> filteredSlots = new ArrayList<>();
+    List<String> allSlots = new ArrayList<>();
+
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    wait.until(ExpectedConditions.presenceOfElementLocated(
+            By.cssSelector("div.resultado")
+    ));
+
+    List<WebElement> resultados = driver.findElements(
+            By.cssSelector("div.resultado")
+    );
+
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+    System.out.println("DEBUG - resultados size: " + resultados.size());
+
+    for (WebElement r : resultados) {
+        System.out.println("DEBUG HTML: " + r.getText());
+    }
+
+    for (WebElement resultado : resultados) {
+
+        // ===== DATE (ESSENTIAL) =====
+        String dateText;
+        LocalDate date;
+
+        try {
+            dateText = resultado.findElement(
+                    By.cssSelector("h3.data span")
+            ).getText().trim();
+
+            if (dateText.isEmpty()) continue;
+
+            date = LocalDate.parse(dateText, dateFormatter);
+
+        } catch (Exception e) {
+            System.out.println("Skipping resultado (invalid date): " + e.getMessage());
+            continue; // date is critical → skip
+        }
+
+        // ===== COURT CODE (OPTIONAL) =====
+        String courtCode;
+        try {
+            courtCode = resultado.findElement(
+                    By.cssSelector("span.sigla")
+            ).getText().trim();
+        } catch (NoSuchElementException e) {
+            courtCode = "[no code]";
+        }
+
+        // ===== COURT NAME (OPTIONAL) =====
+        String courtName;
+        try {
+            courtName = resultado.findElement(
+                    By.cssSelector("strong[data-equipamento]")
+            ).getText().trim();
+        } catch (NoSuchElementException e) {
+            courtName = "[no name]";
+        }
+
+        // ===== TIME SLOTS =====
+        List<WebElement> horarios = resultado.findElements(
+                By.cssSelector("span.hora:not(.d-none)")
+        );
+
+        for (WebElement horario : horarios) {
+
+            String timeText;
+            LocalTime time;
+
+            try {
+                timeText = horario.getText().trim();
+                if (timeText.isEmpty()) continue;
+
+                time = LocalTime.parse(timeText, timeFormatter);
+
+            } catch (Exception e) {
+                System.out.println("Skipping invalid time: " + e.getMessage());
+                continue; // skip only this time
+            }
+
+            String slot = dateText + " - " + timeText +
+                    " - " + courtCode +
+                    " - " + courtName;
+
+            // Save ALL slots
+            allSlots.add(slot);
+
+            // Apply filter
+            if (
+                    (date.getDayOfWeek() == DayOfWeek.FRIDAY &&
+                            !time.isBefore(LocalTime.of(18, 0))) ||
+                    (date.getDayOfWeek() == DayOfWeek.SATURDAY &&
+                            !time.isBefore(LocalTime.of(16, 0)))
+            ) {
+                filteredSlots.add(slot);
+            }
+        }
+    }
+
+    // Save all slots to file
+    saveToFile("allSlots.txt", allSlots);
+
+    return filteredSlots;
+}    
+
+    /*public List<String> returnListAvailableDates() {
+
         System.out.println("==================================");
         System.out.println("DEBUG - System timezone: " + ZoneId.systemDefault());
         System.out.println("DEBUG - LocalDate.now(): " + LocalDate.now());
@@ -427,7 +541,7 @@ public class NasaPage extends AbstractPage {
         saveToFile("allSlots.txt", allSlots);
 
         return filteredSlots;
-    }
+    } */
 
     private void saveToFile(String fileName, List<String> slots) {
         try {
