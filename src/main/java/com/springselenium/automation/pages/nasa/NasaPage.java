@@ -409,7 +409,7 @@ public class NasaPage extends AbstractPage {
             courtCode = resultado.findElement(
                     By.cssSelector("span.sigla")
             ).getText().trim();
-        } catch (NoSuchElementException e) {
+        } catch (org.openqa.selenium.NoSuchElementException e) {
             courtCode = "[no code]";
         }
 
@@ -419,7 +419,7 @@ public class NasaPage extends AbstractPage {
             courtName = resultado.findElement(
                     By.cssSelector("strong[data-equipamento]")
             ).getText().trim();
-        } catch (NoSuchElementException e) {
+        } catch (org.openqa.selenium.NoSuchElementException e) {
             courtName = "[no name]";
         }
 
