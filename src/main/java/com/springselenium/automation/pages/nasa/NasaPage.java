@@ -453,7 +453,8 @@ public class NasaPage extends AbstractPage {
 
             // Apply filter
             if (
-                    (date.getDayOfWeek() == DayOfWeek.FRIDAY &&
+                    (date.getDayOfWeek() == DayOfWeek.TUESDAY &&
+                            !time.isBefore(LocalTime.of(18, 0))) ||(date.getDayOfWeek() == DayOfWeek.FRIDAY &&
                             !time.isBefore(LocalTime.of(18, 0))) ||
                     (date.getDayOfWeek() == DayOfWeek.SATURDAY &&
                             !time.isBefore(LocalTime.of(16, 0)))
