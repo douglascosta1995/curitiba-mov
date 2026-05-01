@@ -71,6 +71,7 @@ public class NasaPage extends AbstractPage {
 
     private final By btnCarregarMais = By.id("btnCarregarMais");
 
+    private static final String LAST_NOTIFIED_FILE = "lastNotifiedSlots.txt";
 
     public void sendEmail(List<String> slots) {
 
@@ -120,6 +121,34 @@ public class NasaPage extends AbstractPage {
             e.printStackTrace();
         }
     }
+
+
+/* =========================
+       NEW — SNAPSHOT HELPERS
+       ========================= */
+
+    private List<String> readLastNotified() throws IOException {
+        Path path = Paths.get(LAST_NOTIFIED_FILE);
+        if (!Files.exists(path)) {
+            return new ArrayList<>();
+        }
+        return Files.readAllLines(path);
+    }
+
+    private void saveLastNotified(List<String> slots) throws IOException {
+        Files.write(
+                Paths.get(LAST_NOTIFIED_FILE),
+                slots,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING
+        );
+    }
+
+    private boolean slotsChanged(List<String> current, List<String> previous) {
+        return !new HashSet<>(current).equals(new HashSet<>(previous));
+    }
+
+
 
     public void sendEmailSummary(List<String> slots) {
 
@@ -645,16 +674,26 @@ public class NasaPage extends AbstractPage {
       //  }
     //}
 
-    public void notifyGroup(List<String> slots) throws IOException {
 
-        if (slots == null || slots.isEmpty()) {
+    public void notifyGroup(List<String> currentSlots) throws IOException {
 
+        if (currentSlots == null || currentSlots.isEmpty()) {
             System.out.println("No preferred slots available. No email sent.");
             return;
         }
 
-        System.out.println("Preferred slots found. Sending email...");
-        sendEmail(slots);
+        List<String> lastNotified = readLastNotified();
+
+        if (slotsChanged(currentSlots, lastNotified)) {
+            System.out.println("Slots changed. Sending email...");
+            sendEmail(currentSlots);
+
+            // Save snapshot ONLY after email succeeds
+            saveLastNotified(currentSlots);
+
+        } else {
+            System.out.println("Slots unchanged. Email not sent.");
+        }
     }
 
 
