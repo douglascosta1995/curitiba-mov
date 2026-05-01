@@ -29,6 +29,15 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      # NEW — Restore notification state
+      - name: Restore last notified slots cache
+        uses: actions/cache@v4
+        with:
+          path: lastNotifiedSlots.txt
+          key: book-volleyball-last-notified
+          restore-keys: |
+            book-volleyball-last-notified
+
       - name: Run Cucumber Scenario every 10 minutes for 6 hours
         shell: powershell
         run: |
@@ -47,3 +56,10 @@ jobs:
           }
 
           Write-Host "Job finished at $(Get-Date)"
+
+      # NEW — Save notification state
+      - name: Save last notified slots cache
+        uses: actions/cache@v4
+        with:
+          path: lastNotifiedSlots.txt
+          key: book-volleyball-last-notified
