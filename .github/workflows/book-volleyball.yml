@@ -3,8 +3,8 @@ name: Book Volleyball Court Trigger
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 11 * * *" # 08:00 BRT
-    - cron: "0 17 * * *" # 14:00 BRT
+    - cron: "0 13 * * *" # 09:00 BRT
+    - cron: "0 19 * * *" # 16:00 BRT
 
 concurrency:
   group: book-volleyball
