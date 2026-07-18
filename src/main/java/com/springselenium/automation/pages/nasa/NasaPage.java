@@ -300,7 +300,7 @@ public class NasaPage extends AbstractPage {
         Thread.sleep(1000);
 
         Select selectSugestao = new Select(driver.findElement(select_Sugestao));
-        selectSugestao.selectByValue("false");
+        selectSugestao.selectByValue("true");
 
         //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -487,7 +487,7 @@ public class NasaPage extends AbstractPage {
                             !time.isBefore(LocalTime.of(18, 0))) || (date.getDayOfWeek() == DayOfWeek.FRIDAY &&
                             !time.isBefore(LocalTime.of(18, 0))) ||
                     (date.getDayOfWeek() == DayOfWeek.SATURDAY &&
-                            !time.isBefore(LocalTime.of(16, 0)))
+                            time.isBefore(LocalTime.of(12, 0)))
             ) {
                 filteredSlots.add(slot);
             }
