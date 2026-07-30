@@ -335,8 +335,7 @@ public class NasaPage extends AbstractPage {
         dateInput.click();
 
         dateInput.sendKeys(Keys.TAB);
-
-        btnCheck.click();
+        driver.findElement(btnCheck).click();
 
         Thread.sleep(5000);
 
