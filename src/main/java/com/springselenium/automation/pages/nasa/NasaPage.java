@@ -71,6 +71,8 @@ public class NasaPage extends AbstractPage {
 
     private final By btnCarregarMais = By.id("btnCarregarMais");
 
+    private final By btnCheck = By.xpath("//input[@type='checkbox']");
+
     private static final String LAST_NOTIFIED_FILE = "lastNotifiedSlots.txt";
 
     public void sendEmail(List<String> slots) {
@@ -333,6 +335,10 @@ public class NasaPage extends AbstractPage {
         dateInput.click();
 
         dateInput.sendKeys(Keys.TAB);
+
+        btnCheck.click();
+
+        Thread.sleep(5000);
 
         WebElement btnAvancar = wait.until(
                 ExpectedConditions.elementToBeClickable(btn_buscar)
