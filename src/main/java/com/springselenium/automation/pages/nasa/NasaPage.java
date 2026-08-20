@@ -36,7 +36,7 @@ public class NasaPage extends AbstractPage {
 
     final String fromEmail = System.getenv("EMAIL_USERNAME");
     final String appPassword = System.getenv("EMAIL_PASSWORD");
-    final String toEmail = "douglascastro2010@hotmail.com, leoribas.22@gmail.com, mizael.otelakoski@gmail.com, marinevescruz32@gmail.com, josewman@gmail.com, brauliomkt@gmail.com";
+    final String toEmail = "douglascastro2010@hotmail.com, mizael.otelakoski@gmail.com, marinevescruz32@gmail.com, josewman@gmail.com, brauliomkt@gmail.com";
     //final String toEmail = "douglascastro2010@hotmail.com";
 
     private final By nasa_header = By.id("header-logo");
@@ -492,7 +492,7 @@ public class NasaPage extends AbstractPage {
                             !time.isBefore(LocalTime.of(18, 0))) || (date.getDayOfWeek() == DayOfWeek.FRIDAY &&
                             !time.isBefore(LocalTime.of(18, 0))) ||
                     (date.getDayOfWeek() == DayOfWeek.SATURDAY &&
-                            time.isBefore(LocalTime.of(12, 0)))
+                            time.isBefore(LocalTime.of(23, 0)))
             ) {
                 filteredSlots.add(slot);
             }
