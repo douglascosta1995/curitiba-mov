@@ -29,6 +29,20 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Test website connectivity
+        shell: powershell
+        run: |
+          Write-Host "================================"
+          Write-Host "Testing website connectivity"
+          Write-Host "Time: $(Get-Date)"
+          Write-Host "================================"
+
+          Write-Host "`nDNS:"
+          nslookup reservadeespaco-curitibaemmov.curitiba.pr.gov.br
+
+          Write-Host "`nHTTPS:"
+          curl.exe -I -v --connect-timeout 30 https://reservadeespaco-curitibaemmov.curitiba.pr.gov.br/entrar
+
       # NEW — Restore notification state
       - name: Restore last notified slots cache
         uses: actions/cache@v4
