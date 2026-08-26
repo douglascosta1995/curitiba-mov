@@ -42,7 +42,8 @@ jobs:
 
           Write-Host "`nHTTPS:"
           curl.exe -I -v --connect-timeout 30 https://reservadeespaco-curitibaemmov.curitiba.pr.gov.br/entrar
-
+          exit 0
+          
       - name: Test website using IP
         shell: powershell
         run: |
