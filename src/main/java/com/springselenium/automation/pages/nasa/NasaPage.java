@@ -302,7 +302,7 @@ public class NasaPage extends AbstractPage {
         Thread.sleep(1000);
 
         Select selectSugestao = new Select(driver.findElement(select_Sugestao));
-        selectSugestao.selectByValue("true");
+        selectSugestao.selectByValue("false");
 
         //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
