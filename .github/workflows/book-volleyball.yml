@@ -44,11 +44,6 @@ jobs:
           curl.exe -I -v --connect-timeout 30 https://reservadeespaco-curitibaemmov.curitiba.pr.gov.br/entrar
           exit 0
           
-      - name: Test website using IP
-        shell: powershell
-        run: |
-          curl.exe -I -v --connect-timeout 30 --resolve reservadeespaco-curitibaemmov.curitiba.pr.gov.br:443:177.125.178.222 https://reservadeespaco-curitibaemmov.curitiba.pr.gov.br/entrar
-      
       # NEW — Restore notification state
       - name: Restore last notified slots cache
         uses: actions/cache@v4
