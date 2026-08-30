@@ -303,7 +303,7 @@ public class NasaPage extends AbstractPage {
         Select selectRegional = new Select(driver.findElement(select_Regional));
         selectRegional.selectByValue("2");
         Select selectUnidade = new Select(driver.findElement(select_Unidade));
-        selectUnidade.selectByValue("quadra");
+        selectUnidade.selectByValue(quadra);
         Thread.sleep(1000);
 
         Select selectSugestao = new Select(driver.findElement(select_Sugestao));
