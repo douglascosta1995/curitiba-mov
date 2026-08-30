@@ -357,19 +357,17 @@ public class NasaPage extends AbstractPage {
         By loadMoreBtn = By.id("btnCarregarMais");
         By listItems = By.cssSelector(".resultado");
 
-        wait.until(ExpectedConditions.or(
-                ExpectedConditions.presenceOfElementLocated(loadMoreBtn),
-                ExpectedConditions.presenceOfElementLocated(By.cssSelector("div.resultado"))
-        ));
-
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
 
         while (true) {
 
             List<WebElement> buttons = driver.findElements(loadMoreBtn);
-            if (buttons.isEmpty()) break;
+
+            if (buttons.isEmpty()) {
+                System.out.println("DEBUG - Botão 'Carregar mais' não encontrado. Seguindo...");
+                break;
+            }
 
             int previousSize = driver.findElements(listItems).size();
 
@@ -377,11 +375,20 @@ public class NasaPage extends AbstractPage {
                     ExpectedConditions.presenceOfElementLocated(loadMoreBtn)
             );
 
-            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", button);
+            js.executeScript(
+                    "arguments[0].scrollIntoView({block: 'center'});",
+                    button
+            );
 
-            wait.until(ExpectedConditions.elementToBeClickable(button));
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(button));
 
-            js.executeScript("arguments[0].click();", button);
+                js.executeScript("arguments[0].click();", button);
+
+            } catch (TimeoutException e) {
+                System.out.println("DEBUG - Botão 'Carregar mais' não ficou clicável. Seguindo...");
+                break;
+            }
 
             try {
                 wait.until(driver ->
@@ -391,7 +398,6 @@ public class NasaPage extends AbstractPage {
                 break;
             }
         }
-
     }
 
     public List<String> returnListAvailableDates() {
