@@ -31,6 +31,12 @@ public class NasaSteps {
         nasaPage.goTo();
         //Assert.assertTrue(nasaPage.isAt());
     }
+
+    @Given("I am on the main page")
+    public void given_IAmOnTheMainPage() {
+        nasaPage.goToQuestionario();
+    }
+    
     @When("I click Entrar com CPF")
     public void when_IClickEntrarComCpf() {
         // Write code here that turns the phrase above into concrete actions
