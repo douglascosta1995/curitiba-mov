@@ -33,7 +33,7 @@ public class NasaSteps {
     }
 
     @Given("I am on the main page")
-    public void given_IAmOnTheMainPage() {
+    public void given_IAmOnTheMainPage() throws InterruptedException {
         nasaPage.goToQuestionario();
     }
     
