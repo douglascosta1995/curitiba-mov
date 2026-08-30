@@ -214,6 +214,11 @@ public class NasaPage extends AbstractPage {
         driver.findElement(btn_entrarcpf).click();
     }
 
+    public void goToQuestionario() throws InterruptedException {
+            driver.get("https://reservadeespaco-curitibaemmovimento.curitiba.pr.gov.br/questionario");
+            Thread.sleep(2000);
+     }
+
     public void sendCredentials(String cpf, String password) throws InterruptedException {
         // Create a WebDriverWait instance with a timeout of 10 seconds
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
