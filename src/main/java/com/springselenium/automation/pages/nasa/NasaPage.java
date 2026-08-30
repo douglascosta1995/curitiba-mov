@@ -276,7 +276,7 @@ public class NasaPage extends AbstractPage {
 
     }
 
-    public void selectVolleyData() throws InterruptedException {
+    public void selectVolleyData(String quadra) throws InterruptedException {
         driver.findElement(btn_novaReserva).click();
         //Thread.sleep(1000);
         //Select selectAtividade = new Select(driver.findElement(select_Atividade));
@@ -298,7 +298,7 @@ public class NasaPage extends AbstractPage {
         Select selectRegional = new Select(driver.findElement(select_Regional));
         selectRegional.selectByValue("2");
         Select selectUnidade = new Select(driver.findElement(select_Unidade));
-        selectUnidade.selectByValue("7099");
+        selectUnidade.selectByValue("quadra");
         Thread.sleep(1000);
 
         Select selectSugestao = new Select(driver.findElement(select_Sugestao));
