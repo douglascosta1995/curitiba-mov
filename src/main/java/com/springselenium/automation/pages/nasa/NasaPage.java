@@ -282,7 +282,7 @@ public class NasaPage extends AbstractPage {
     }
 
     public void selectVolleyData(String quadra) throws InterruptedException {
-        driver.findElement(btn_novaReserva).click();
+        //driver.findElement(btn_novaReserva).click();
         //Thread.sleep(1000);
         //Select selectAtividade = new Select(driver.findElement(select_Atividade));
         //selectAtividade.selectByValue("20");
