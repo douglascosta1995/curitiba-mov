@@ -216,7 +216,7 @@ public class NasaPage extends AbstractPage {
 
     public void goToQuestionario() throws InterruptedException {
             driver.get("https://reservadeespaco-curitibaemmovimento.curitiba.pr.gov.br/questionario");
-            Thread.sleep(2000);
+            Thread.sleep(3000);
      }
 
     public void sendCredentials(String cpf, String password) throws InterruptedException {
