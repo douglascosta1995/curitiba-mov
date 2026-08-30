@@ -50,7 +50,7 @@ public class NasaSteps {
     @When("I select volleyball court data")
     public void when_ISelectVolleyballCourtData() throws InterruptedException {
         // Write code here that turns the phrase above into concrete actions
-        nasaPage.selectVolleyData();
+        nasaPage.selectVolleyData("7099");
     }
 
     @When("I select the suitable day and time")
@@ -73,8 +73,23 @@ public class NasaSteps {
 
     @Then("I notify the group about new matching spots")
     public void then_INotifyTheGroupAboutNewMatchingSpots() throws InterruptedException, IOException {
-        // Write code here that turns the phrase above into concrete actions
+        // Resultado da quadra 7099
         List<String> preferred = nasaPage.filterPreferredSchedule();
+    
+        // Volta para o questionário
+        nasaPage.goToQuestionario();
+    
+        // Consulta quadra 5072
+        nasaPage.selectVolleyData("5072");
+        nasaPage.selectSuitableDate();
+    
+        // Pega os horários da 5072
+        List<String> preferred5072 = nasaPage.filterPreferredSchedule();
+    
+        // Junta tudo
+        preferred.addAll(preferred5072);
+    
+        // Envia um único email
         nasaPage.notifyGroup(preferred);
     }
 
