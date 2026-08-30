@@ -3,8 +3,9 @@ name: Book Volleyball Court Trigger
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 11 * * *" # 09:00 BRT
-    - cron: "0 17 * * *" # 16:00 BRT
+    - cron: "0 9 * * *"   # 06:00 BRT
+    - cron: "0 15 * * *"  # 12:00 BRT
+    - cron: "0 21 * * *"  # 18:00 BRT
 
 concurrency:
   group: book-volleyball
@@ -13,7 +14,7 @@ concurrency:
 jobs:
   run-test:
     runs-on: windows-latest
-    timeout-minutes: 370 # ~6h + margem
+    timeout-minutes: 360 # 6 horas
 
     env:
       EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
@@ -44,7 +45,6 @@ jobs:
           curl.exe -I -v --connect-timeout 30 https://reservadeespaco-curitibaemmov.curitiba.pr.gov.br/entrar
           exit 0
           
-      # NEW — Restore notification state
       - name: Restore last notified slots cache
         uses: actions/cache@v4
         with:
@@ -53,26 +53,33 @@ jobs:
           restore-keys: |
             book-volleyball-last-notified
 
-      - name: Run Cucumber Scenario every 10 minutes for 6 hours
+      - name: Run Cucumber Scenario every 2 minutes for 6 hours
         shell: powershell
         run: |
           Write-Host "Job started at $(Get-Date)"
 
-          for ($i = 1; $i -le 36; $i++) {
+          $endTime = (Get-Date).AddHours(5.9)
+
+          $i = 1
+
+          while ((Get-Date) -lt $endTime) {
+
             Write-Host "=============================="
             Write-Host "Execution $i - $(Get-Date)"
+            Write-Host "=============================="
 
             mvn clean test
 
-            if ($i -lt 36) {
-              Write-Host "Sleeping 10 minutes..."
-              Start-Sleep -Seconds 600
+            $i++
+
+            if ((Get-Date) -lt $endTime) {
+              Write-Host "Sleeping 2 minutes..."
+              Start-Sleep -Seconds 120
             }
           }
 
           Write-Host "Job finished at $(Get-Date)"
 
-      # NEW — Save notification state
       - name: Save last notified slots cache
         uses: actions/cache@v4
         with:
