@@ -501,9 +501,7 @@ public class NasaPage extends AbstractPage {
                     (date.getDayOfWeek() == DayOfWeek.TUESDAY &&
                             !time.isBefore(LocalTime.of(18, 0))) || (date.getDayOfWeek() == DayOfWeek.WEDNESDAY &&
                             !time.isBefore(LocalTime.of(18, 0))) || (date.getDayOfWeek() == DayOfWeek.FRIDAY &&
-                            !time.isBefore(LocalTime.of(18, 0))) ||
-                    (date.getDayOfWeek() == DayOfWeek.SATURDAY &&
-                            time.isBefore(LocalTime.of(18, 0)))
+                            !time.isBefore(LocalTime.of(18, 0)))
             ) {
                 filteredSlots.add(slot);
             }
